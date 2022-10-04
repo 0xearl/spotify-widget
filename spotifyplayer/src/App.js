@@ -131,7 +131,7 @@ function App() {
   }
   setTimeout(() => {
     RenewToken()
-  }, 60 * 60 * 1000)
+  }, 60 * 45 * 1000)
 
   useEffect(() => {
     if( queries.access_token == '' && queries.refresh_token == ''||
