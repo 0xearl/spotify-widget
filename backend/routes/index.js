@@ -2,8 +2,8 @@ var express = require('express');
 var axios = require('axios')
 var querystring = require('querystring');
 var router = express.Router();
-var client_id = 'dbb4935890dd40f1984fd1718c08c647'; // Your client id
-var client_secret = 'd8f3a80dc9d448378582aed7fd5c2b33'; // Your secret
+var client_id = 'c265e177c1dc4c0ea41d61d0100a74c3'; // Your client id
+var client_secret = '812aff82b88e49cfb102836db57ca289'; // Your secret
 var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 var stateKey = 'spotify_auth_state';
 
@@ -38,23 +38,14 @@ router.get('/refresh_token', function(req, res) {
 
   // requesting access token from refresh token
   var refresh_token = req.query.refresh_token;
-  // var authOptions = {
-  //   url: 'https://accounts.spotify.com/api/token',
-  //   headers: { 'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64')) },
-  //   form: {
-  //     grant_type: 'refresh_token',
-  //     refresh_token: refresh_token
-  //   },
-  //   json: true
-  // };
 
   axios({
     method: 'post',
     url: 'https://accounts.spotify.com/api/token',
-    data: {
+    data: querystring.stringify({
       grant_type: 'refresh_token',
       refresh_token: refresh_token
-    },
+    }),
     headers: {
       'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
     }
@@ -65,15 +56,6 @@ router.get('/refresh_token', function(req, res) {
       'access_token': access_token
     })
   })
-
-  // axios.post(authOptions, function(error, response, body) {
-  //   if (!error && response.statusCode === 200) {
-  //     var access_token = body.access_token;
-  //     res.send({
-  //       'access_token': access_token
-  //     });
-  //   }
-  // });
 });
 
 router.get('/callback', function(req, res) {
@@ -104,7 +86,7 @@ router.get('/callback', function(req, res) {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }).then(response => {
-      console.log('data', response)
+      // console.log('data', response)
       var access_token = response.data.access_token,
           refresh_token = response.data.refresh_token;
 
@@ -128,11 +110,7 @@ router.get('/callback', function(req, res) {
 
 router.get('/playing', (req, res) => {
   access_token = req.query.access_token
-  var options = {
-    url: 'https://api.spotify.com/v1/me/player/currently-playing',
-    headers: { 'Authorization': 'Bearer ' + access_token },
-    json: true
-  };
+
   axios({
     method: 'get',
     url: 'https://api.spotify.com/v1/me/player/currently-playing',
@@ -141,7 +119,7 @@ router.get('/playing', (req, res) => {
       'Content-Type': 'application/json'
     }
   }).then(response => {
-    console.log('response', response.status)
+    // console.log('response', response.status)
 
     if(response.status == 204) {
       return res.json({
@@ -155,7 +133,9 @@ router.get('/playing', (req, res) => {
 
     return res.send(response.data)
   }).catch(err => {
-    console.log(err)
+    if(err.response.status === 401) {
+      res.send({message: 'Token Expired'})
+    }
   })
 })
 
