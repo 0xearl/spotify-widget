@@ -109,7 +109,7 @@ router.get('/callback', function(req, res) {
 });
 
 router.get('/playing', (req, res) => {
-  access_token = req.query.access_token
+  let access_token = req.query.access_token
 
   axios({
     method: 'get',
@@ -136,6 +136,74 @@ router.get('/playing', (req, res) => {
     if(err.response.status === 401) {
       res.send({message: 'Token Expired'})
     }
+  })
+})
+
+router.get('/next', (req, res) => {
+  let access_token = req.query.access_token
+
+  axios({
+    method: 'post',
+    url: 'https://api.spotify.com/v1/me/player/next',
+    headers: {
+      'Authorization': 'Bearer ' + access_token,
+      'Content-Type': 'application/json'
+    }
+  }).then(() => {
+    return res.send(200)
+  }).catch(err => {
+    return res.send(err).append(502)
+  })
+})
+
+router.get('/previous', (req, res) => {
+  let access_token = req.query.access_token
+
+  axios({
+    method: 'post',
+    url: 'https://api.spotify.com/v1/me/player/previous',
+    headers: {
+      'Authorization': 'Bearer ' + access_token,
+      'Content-Type': 'application/json'
+    }
+  }).then(() => {
+    return res.send(200)
+  }).catch(err => {
+    return res.send(err).append(502)
+  })
+})
+
+router.get('/play', (req, res) => {
+  let access_token = req.query.access_token
+
+  axios({
+    method: 'put',
+    url: 'https://api.spotify.com/v1/me/player/play',
+    headers: {
+      'Authorization': 'Bearer ' + access_token,
+      'Content-Type': 'application/json'
+    }
+  }).then(() => {
+    return res.send(200)
+  }).catch(err => {
+    return res.send(err).append(502)
+  })
+})
+
+router.get('/pause', (req, res) => {
+  let access_token = req.query.access_token
+
+  axios({
+    method: 'put',
+    url: 'https://api.spotify.com/v1/me/player/pause',
+    headers: {
+      'Authorization': 'Bearer ' + access_token,
+      'Content-Type': 'application/json'
+    }
+  }).then(() => {
+    return res.send(200)
+  }).catch(err => {
+    return res.send(err)
   })
 })
 
