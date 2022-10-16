@@ -1,3 +1,84 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    -webkit-app-region: drag;
+    overflow-y: hidden;
+    border-radius: 50%;
+}
+
+button {
+    -webkit-app-region: no-drag;
+}
+
+a {
+    -webkit-app-region: no-drag;
+}
+
+#titlebar {
+    display: block;
+    position: fixed;
+    background-color: transparent;
+    width: 100%;
+    padding: 4px;
+    color: #FFF;
+    height: 32px;
+}
+
+#titlebar #drag-region {
+    width: 100%;
+    height: 100%;
+    -webkit-app-region: drag;
+  }
+
+#window-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 46px);
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+
+#window-controls .button {
+    grid-row: 1 / span 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#close-button {
+    grid-column: 3;
+}
+
+#window-controls {
+    -webkit-app-region: no-drag;
+}
+
+#window-controls .button {
+    user-select: none;
+}
+#window-controls .button:hover {
+    background: rgba(255,255,255,0.1);
+}
+#window-controls .button:active {
+    background: rgba(255,255,255,0.2);
+}
+
+#close-button:hover {
+    /* background: #E81123 !important; */
+    background: rgba(222, 69, 94, 50) !important;
+}
+#close-button:active {
+    background: #F1707A !important;
+}
+#close-button:active .icon {
+    filter: invert(1);
+}
+
+#restore-button {
+    display: none !important;
+}
