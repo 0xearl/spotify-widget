@@ -12,7 +12,7 @@ let win
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 400,
+    width: 600,
     height: 550,
     webPreferences: {
       nodeIntegration: false,
@@ -24,7 +24,7 @@ function createWindow() {
 
 
   // and load the index.html of the app.
-  // win.loadFile("index.html");
+  // win.loadFile("index.html"); 
   win.loadURL(
     isDev
       ? 'http://localhost:3000'
