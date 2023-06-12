@@ -2,8 +2,8 @@ var express = require('express');
 var axios = require('axios')
 var querystring = require('querystring');
 var router = express.Router();
-var client_id = 'c265e177c1dc4c0ea41d61d0100a74c3'; // Your client id
-var client_secret = '812aff82b88e49cfb102836db57ca289'; // Your secret
+var client_id = ''; // Your client id
+var client_secret = ''; // Your secret
 var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 var stateKey = 'spotify_auth_state';
 
